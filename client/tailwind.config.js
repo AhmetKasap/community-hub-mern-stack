@@ -15,7 +15,8 @@ module.exports = {
       fontFamily:{
         roboto : ['Roboto', "sans-serif"],
         rem : ['REM', 'sans-serif'],
-        opsenSans : ['Open Sans', 'sans-serif']
+        opsenSans : ['Open Sans', 'sans-serif'],
+        inter : ['Inter', 'sans-serif']
       }
     },
   },

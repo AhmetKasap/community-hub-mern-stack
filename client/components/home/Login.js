@@ -15,7 +15,7 @@ const Login = () => {
   return (
     <>
   
-      <div id='toogle' className=' bg-slate-500 invisible fixed inset-0 flex flex-row items-center justify-center'>
+      <div id='toogle' className=' bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 invisible fixed inset-0 flex flex-row items-center justify-center'>
         <div className='bg-white h-1/2 w-1/4 '>
 
           <div className='flex flex-row justify-between m-8 mt-12'>

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import Login from './Login'
 import Register from './Register'
+import Bar from '../user/ProfileButton'
 
 const Navbar = () => {
   return (
@@ -17,6 +18,7 @@ const Navbar = () => {
             <ul className='flex flex-row justify-center items-center gap-3'>
                 <Login></Login>
                 <Register></Register>
+                <Bar></Bar>
             </ul>
          </div>
        </div>
