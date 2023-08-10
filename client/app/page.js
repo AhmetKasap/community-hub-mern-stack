@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <Navbar></Navbar>
 
-      <div className="flex flex-row mt-8 w-11/12 mx-auto">
+      <div className="flex flex-row mt-12 w-11/12 mx-auto ">
         <div className="basis-1/6">
          <LeftNavbar></LeftNavbar>
         </div>

@@ -13,7 +13,9 @@ module.exports = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       fontFamily:{
-        roboto : ['Roboto', "sans-serif"]
+        roboto : ['Roboto', "sans-serif"],
+        rem : ['REM', 'sans-serif'],
+        opsenSans : ['Open Sans', 'sans-serif']
       }
     },
   },
