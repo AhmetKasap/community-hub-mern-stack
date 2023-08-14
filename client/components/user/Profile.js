@@ -19,10 +19,6 @@ const Profile = () => {
                     <div className='flex flex-row justify-between m-8 items-center'>
                         <FaUserAlt className='text-3xl text-blue-500'></FaUserAlt>
                         <button onClick={ () => toogleButton() } className='bg-blue-500 hover:bg-blue-600 text-white text-sm p-3 rounded-lg '>Profili Düzenle</button>
-
-                        
-
-
                     </div>
                     <div className='flex flex-col m-8'>
                         <h1 className='font-roboto mb-3'>Kullanıcı Adı </h1>
