@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation';
-import Login from './Login';
 
 const Register = () => {
 
@@ -53,7 +52,7 @@ const errToast = () => toast("Kayıt işlemi başarısız,tekrar deneyin. nedeni
 
     if(userReturn.success) {
       registerSuccessToast()
-      router.push('/')
+      router.push('/user/login')
     }else{
       errToast()
     }
@@ -92,8 +91,7 @@ const errToast = () => toast("Kayıt işlemi başarısız,tekrar deneyin. nedeni
             <div className=' flex flex-col items-center justify-center'>
               <button  onClick={() => register()} className='bg-blue-700 hover:bg-blue-800 text-sm text-white p-3 rounded-lg mt-8 w-24 '>Kayıt Ol</button>
 
-
-              <Link href="" className="text-sm  text-blue-500 hover:font-medium font-light mt-4">Giriş Yap</Link>
+              <Link href="/user/login" className="text-sm  text-blue-500 hover:font-medium font-light mt-4">Giriş Yap</Link>
             </div>
 
           </div>

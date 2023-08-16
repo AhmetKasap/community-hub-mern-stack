@@ -2,6 +2,8 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
+
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,16 +12,17 @@ const loginSuccessToast = () => toast("Giriş Yapıldı Yönlendiriliyorsunuz");
 const errToast = () => toast("Giriş bilgileri hatalı lütfen tekrar deneyiniz.");
 
 const Login = () => {
-  const toogleButton = () => {
-    document.getElementById('toogle').style.visibility="visible";
-  }
+  const router = useRouter();
+
+  
 
   const dropToggle  = () => {
     document.getElementById('toogle').style.visibility="hidden";
+    router.push('/')
+
   }
 
 
-  const router = useRouter();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -41,17 +44,24 @@ const Login = () => {
       body : jsonUser
     })
 
-    const data = await result.json()
-    console.log(data)
+    const jsonData = await result.json()
+    console.log(jsonData)
 
-    if(data.success) {
+    if(jsonData.success) {
       router.push('/user/profile')
+      const token = jsonData.data
+      Cookies.set('jsonwebtoken', token, { expires: 7 })
+
       loginSuccessToast()
     }
     else{
       errToast()
       
     }
+
+    
+
+
     
   }
   
@@ -59,7 +69,7 @@ const Login = () => {
   return (
     <>
   
-      <div id='toogle' className=' bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 invisible fixed inset-0 flex flex-row items-center justify-center'>
+      <div id='toogle' className=' bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 visible fixed inset-0 flex flex-row items-center justify-center'>
         <div className='bg-white h-auto w-1/4 '>
 
           <div className='flex flex-row justify-between m-8 mt-12'>
@@ -84,8 +94,9 @@ const Login = () => {
 
         </div>
       </div>
+
   
-      <button className='bg-blue-700 hover:text-lg text-sm text-white p-3 rounded-xl ' onClick={ () => toogleButton() }>Giriş Yap</button>
+      
       <ToastContainer />
 
     </>

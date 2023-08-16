@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const path = require('path')
 require('express-async-errors')
 
 //! database-connection
@@ -19,6 +20,9 @@ app.use(express.urlencoded({limit : "50mb", extended : true , parameterLimit : 5
 const cors = require('cors')
 const corsOptions = require('./src/helpers/cors')
 app.use(cors(corsOptions))
+
+
+
 
 
 //! json-web-token and cookie-parser
@@ -41,9 +45,7 @@ app.get('/', (req,res) => {
     res.send('merhabass')
 })
 
-app.use((req, res, next) => {
-    res.status(404).render('404')
-  });
+
 
 app.listen(5000, () => {
     console.log(`Sunucu ${5000} portunda çalışıyor`);

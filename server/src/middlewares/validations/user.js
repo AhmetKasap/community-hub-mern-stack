@@ -27,6 +27,19 @@ const register = async (req,res,next) => {
                 "string.required" : "E-mail alanı zorunludur."
 
             }),
+            username : joi.string().trim().min(3).max(50).required().messages({
+                "string.base" : "username",
+                "string.empty" : "username alanı boş bıraklılmaz.",
+                "string.min" : "Minimum 3 harfli username girmelisiniz.",
+                "string.max" : "Maximum 50 harfli username girmelisiniz.",
+                "string.required" : "username alanı zorunludur."
+
+            }),
+            explanation : joi.string().min(3).max(50).messages({
+                "string.base" : "explanation",
+                "string.min" : "Minimum 3 harfli explanation girmelisiniz.",
+                "string.max" : "Maximum 50 harfli explanation girmelisiniz.",
+            }),
             password : joi.string().trim().min(6).max(50).required().messages({
                 "string.base" : "Password",
                 "string.empty" : "Password alanı boş bıraklılmaz.",

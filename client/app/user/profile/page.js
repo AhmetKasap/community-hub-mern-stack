@@ -1,24 +1,46 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import Navbar from '@/components/home/Navbar'
 import EditProfile from '@/components/user/Profile'
 import Posts from '@/components/user/Posts'
-import Link from 'next/link'
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation'
+
+
 
 const page = () => {
+  const router = useRouter()
+
+  const [tokens,setTokens] = useState('')
+
+   useEffect(() => {
+      const token = Cookies.get('jsonwebtoken')
+      if(token) {
+         setTokens(token)
+      }
+     
+   },[])
+
+
   return (
     <>  
-        <Navbar></Navbar>
-        <div className='flex flex-row w-3/4 mx-auto mt-8'>
-            <div className='basis-1/4'>
-                <EditProfile></EditProfile>
-                
+      <Navbar></Navbar>
 
-
-            </div>
-            <div className='basis-3/4'>
-                <Posts></Posts>
-            </div>
-        </div>
+        {
+          tokens ? ( 
+          <div className='flex flex-row w-3/4 mx-auto mt-8'>
+              <div className='basis-1/4'>
+                  <EditProfile></EditProfile>
+                  
+  
+  
+              </div>
+              <div className='basis-3/4'>
+                  <Posts></Posts>
+              </div>
+          </div>) : (router.push('/user/login'))
+        }
+       
         
 
     </>

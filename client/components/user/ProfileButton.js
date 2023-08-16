@@ -2,7 +2,7 @@ import React from 'react'
 import { FaUserAlt } from "react-icons/fa";
 import Link from 'next/link';
 
-const Bar = () => {
+const ProfileButton = () => {
   return (
     <>  
       <Link href='/user/profile'>
@@ -16,4 +16,4 @@ const Bar = () => {
   )
 }
 
-export default Bar
+export default ProfileButton

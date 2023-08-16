@@ -4,10 +4,15 @@ const userSchema = new mongoose.Schema({
     name : {type : String, required : true, trim:true},
     lastname : {type : String, required : true, trim:true}, 
     email : {type : String, required : true, trim:true, unique:true},
+    username : {type : String, required : true, trim:true, unique:true},
+    explanation : {type : String, trim:true},
     password : {type : String, required : true, trim:true}
 
-},{timestamps:true})
+},{
+    timestamps:true,
+   
+})
 
-const user = mongoose.model('USERS', userSchema)
+const User = mongoose.model('USERS', userSchema)
 
-module.exports = user
+module.exports = User

@@ -4,8 +4,14 @@ const upload = require('../middlewares/lib/upload')
 const multer = require('multer')
 const Response = require('../utils/Response')
 
+
 const userAuth = require('../routes/user.auth')
 router.use(userAuth)
+
+const userInfo = require('../routes/user.info')
+router.use(userInfo)
+
+
 
 router.post("/upload", function (req, res) {
     upload(req, res, function (err) {

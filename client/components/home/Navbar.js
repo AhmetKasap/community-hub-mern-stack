@@ -1,10 +1,27 @@
+'use client'
 import Link from 'next/link'
-import React from 'react'
-import Login from './Login'
+import React, { useEffect, useState } from 'react'
 import Register from './Register'
-import Bar from '../user/ProfileButton'
+import LoginButton from './LoginButton'
+import ProfileButton from '../user/ProfileButton'
+import Cookies from 'js-cookie'
 
 const Navbar = () => {
+
+   const [tokens,setTokens] = useState('')
+
+   useEffect(() => {
+      const token = Cookies.get('jsonwebtoken')
+      if(token) {
+         setTokens(token)
+      }
+     
+   },[])
+
+   
+
+
+
   return (
     <>  
        <div className=' flex flex-row w-full h-20'>
@@ -16,9 +33,18 @@ const Navbar = () => {
          </div>
          <div className='basis-1/4 flex flex-row justify-center items-center gap-3'>
             <ul className='flex flex-row justify-center items-center gap-3'>
-                <Login></Login>
-                <Register></Register>
-                <Bar></Bar>
+               {
+                  tokens ? (<ProfileButton></ProfileButton>) : (
+                     <>
+                        <LoginButton></LoginButton>
+                        <Register></Register>
+                     </>
+                     
+                  )
+               }
+                
+
+                
             </ul>
          </div>
        </div>
@@ -28,4 +54,6 @@ const Navbar = () => {
   )
 }
 
+
 export default Navbar
+
