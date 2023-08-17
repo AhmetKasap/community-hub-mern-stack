@@ -11,6 +11,8 @@ router.use(userAuth)
 const userInfo = require('../routes/user.info')
 router.use(userInfo)
 
+const userPost = require('../routes/user.post')
+router.use(userPost)
 
 
 router.post("/upload", function (req, res) {

@@ -49,7 +49,6 @@ const Profile = () => {
     name,lastname,username,explanation
   }
   const jsonData = JSON.stringify(userProfileEdit)
-  console.log(jsonData)
 
 
 
@@ -78,7 +77,7 @@ const Profile = () => {
     
     {
         profile ? (
-            <div className='basis-1/4 border-2 rounded-xl h-96 '>
+            <div className='basis-1/4 border-2 rounded-xl h-96 mt-16'>
               <div className='flex flex-row justify-between m-8 items-center'>
                 <FaUserAlt className='text-3xl text-blue-500'></FaUserAlt>
                 <button onClick={() => toogleButton()} className='bg-blue-500 hover:bg-blue-600 text-white text-sm p-3 rounded-lg '>Profili Düzenle</button>
@@ -115,7 +114,7 @@ const Profile = () => {
 
 
       <div className='text-center'>
-        <button className='mt-4 bg-green-500 hover:bg-green-600 p-3 rounded-xl text-white w-32'>Paylaşım Yap</button>
+        <Link href='/user/addPost'><button className='mt-4 bg-green-500 hover:bg-green-600 p-3 rounded-xl text-white w-32'>Paylaşım Yap</button></Link>
       </div>
 
 
