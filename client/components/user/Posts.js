@@ -1,8 +1,11 @@
+'use client'
 import React, { useEffect, useState } from 'react'
 import { FaUserAlt, FaRegComment } from "react-icons/fa";
 import { BiDotsHorizontalRounded, BiLike } from "react-icons/bi";
 import Link from 'next/link';
 import Cookies from 'js-cookie';
+import { useSelector, useDispatch } from 'react-redux'
+import { getUserInfo } from '@/Redux/features/userInfoSlice';
 
 
 const Posts = () => {
@@ -21,16 +24,27 @@ const Posts = () => {
             const result = await response.json()
             setPost(result.data)
         }
-
-        
-        
-
         getPost()
-
     },[])
 
     
-    console.log(post[0])
+    const userInfo = useSelector((state) => state.user.usersInfo)
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getUserInfo())
+    },[dispatch])
+
+    const [userData, setUserData] = useState({})
+    useEffect(() => {
+        if (userInfo.data) {
+            setUserData(userInfo.data);
+        }
+    }, [userInfo]);
+    
+    console.log(userData.name);
+    
+
     
 
     return (
@@ -48,12 +62,13 @@ const Posts = () => {
                     return(
                         <div className=' w-3/4 mx-auto h-auto border-2 rounded-xl mb-8'>
                     <div className=' w-5/6 mx-auto mt-5 mb-5'>
+                        
                         <div className='flex flex-row items-center justify-between '>
                             <div className='flex flex-row items-center'>
                                 <FaUserAlt className='rounded-full w-12 h-12 m-2 text-blue-500'></FaUserAlt>
-                                <h1 className='font-roboto text-gray-700'>Kullanıcı Ad</h1>
-                                <h1 className='font-roboto text-gray-400 ml-3 '>@ User Name</h1>
-                                <h1 className='font-roboto text-gray-400 font-light ml-3'> - tarih</h1>
+                                <h1 className='font-roboto text-gray-700'>{userData.name} {userData.lastname} </h1>
+                                <h1 className='font-roboto text-gray-400 ml-3 '>@ {userData.username}</h1>
+                                <h1 className='font-roboto text-gray-400 font-light ml-3'>{userData.createdAt} </h1>
                             </div>
                             <button ><BiDotsHorizontalRounded className='text-3xl'></BiDotsHorizontalRounded></button>
                         </div>
