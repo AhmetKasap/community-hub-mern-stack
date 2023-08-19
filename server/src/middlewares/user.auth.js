@@ -24,7 +24,7 @@
             const token = req.headers.authorization.split(' ')[1]
             await jwt.verify(token, process.env.JWT_SECRET, async (err,decoded) => {
                 if(err) {
-                    throw APIError("Token çözümlenemedi", 500).messages(res)
+                    throw new APIError("Token çözümlenemedi", 500).messages(res)
                 }
                 else {
                     const userInfo = await User.findOne({_id : decoded.payload.id})

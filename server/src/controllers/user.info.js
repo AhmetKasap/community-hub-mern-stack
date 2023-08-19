@@ -12,13 +12,13 @@ const getUser = (req,res) => {
 }
 
 const editProfile = async (req,res) => {
-    
     const id = await req.user.id
-    const update = await {
+    
+    const update = {
         name : req.body.name,
         lastname : req.body.lastname,
         username : req.body.username,
-        explanation : req.body.explanation
+        explanation : req.body.explanation,
     }
 
         
@@ -33,6 +33,22 @@ const editProfile = async (req,res) => {
 }
 
 
+const editAvatar = async (req,res) => {
+    const userId = await req.user.id
+    const newAvatar = req.file.filename
+    console.log(newAvatar)
+
+    const user = await User.findOneAndUpdate({_id : userId}, {avatar : newAvatar}, { new: true })
+    if(user) {
+        return new Response(user, "Güncellenen, kullanıcı bilgileri : ").success(res)
+    }
+    else{
+        return new APIError('kullanıcı verileri güncellenemedi', '404').messages(res)
+    }
+
+
+}
+
 
 
 
@@ -40,5 +56,5 @@ const editProfile = async (req,res) => {
 
 
 module.exports = {
-    getUser,editProfile
+    getUser,editProfile,editAvatar
 }

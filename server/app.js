@@ -21,8 +21,8 @@ const cors = require('cors')
 const corsOptions = require('./src/helpers/cors')
 app.use(cors(corsOptions))
 
-
-
+//* public altındaki bütün dosyalar artık sunucu da kullanılabilir.
+app.use(express.static('public'));
 
 
 //! json-web-token and cookie-parser

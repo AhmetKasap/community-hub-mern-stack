@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { FaUserAlt } from "react-icons/fa";
 import Link from 'next/link';
 import Cookies from 'js-cookie';
+import Image from 'next/image';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,15 +11,52 @@ const editProfileSuccess = () => toast("Güncelleme Başarılı");
 
 
 const Profile = () => {
+
   const toogleButton = () => {
     document.getElementById('togg').style.visibility = "visible";
   }
 
   const dropToggle = () => {
     document.getElementById('togg').style.visibility = "hidden";
+  } 
+
+
+  const toogleImage = () => {
+    document.getElementById('togels').style.visibility = "visible";
   }
 
-  const [profile, setProfile] = useState([])
+  const dropToogleImage = () => {
+    document.getElementById('togels').style.visibility = "hidden";
+
+  }
+
+
+ 
+
+
+
+
+
+
+
+
+  const [profile, setProfile] = useState({
+    createdAt: "2",
+    email: "a",
+    explanation: "as",
+    lastname: "a",
+    name: "a",
+    password: "a",
+    updatedAt: "a",
+    username: "a",
+    __v: 0,
+    _id: "a",
+    avatar : {
+      filename: "a",
+      originalname: "a",
+      path: "a"
+    }
+  })
   const token = Cookies.get('jsonwebtoken')
 
   useEffect(() => {
@@ -40,28 +78,35 @@ const Profile = () => {
   }, [])
 
 
+
+
   const [name, setName] = useState('')
   const [lastname, setLastName] = useState('')
   const [username, setUsername] = useState('')
   const [explanation, setExplanation] = useState('')
+  const [avatar,setAvatar] = useState('')
+
+  
 
   const userProfileEdit = {
     name,lastname,username,explanation
   }
+  console.log(userProfileEdit)
   const jsonData = JSON.stringify(userProfileEdit)
 
-
-
   const editProfile = async () => {
+    
     const response = await fetch('http://localhost:5000/api/user/profile-edit', {
       method : 'POST',
       headers : {
         Authorization : `Bearer ${token}`,
-        'Content-Type': 'application/json'
+        'Content-Type' : 'application/json'
       },
       
       body : jsonData
     })
+
+    
     const data = await response.json()
     console.log(data)
     if(data.success) {
@@ -70,17 +115,42 @@ const Profile = () => {
     }
   }
 
-    
+
+  const editAvatar = async  () => {
+    const formData = new FormData()
+    formData.append('image', avatar)
+
+
+    const response = await fetch('http://localhost:5000/api/user/profile-edit-avatar', {
+      method : 'POST',
+      headers : {
+        Authorization : `Bearer ${token}`,
+      },
+      
+      body : formData
+    })
+    const data = await response.json()
+    console.log(data)
+    if(data.success) {
+      editProfileSuccess()
+      document.getElementById('togels').style.visibility = 'hidden'
+    }
+  }
+                    
+
 
   return (
     <>
     
     {
-        profile ? (
+        profile !== null ? (
             <div className='basis-1/4 border-2 rounded-xl h-96 mt-16'>
               <div className='flex flex-row justify-between m-8 items-center'>
-                <FaUserAlt className='text-3xl text-blue-500'></FaUserAlt>
-                <button onClick={() => toogleButton()} className='bg-blue-500 hover:bg-blue-600 text-white text-sm p-3 rounded-lg '>Profili Düzenle</button>
+                <button onClick={toogleImage}>
+                <Image alt='avatar' src={"http://localhost:5000/uploads/"+profile.avatar} width={100} height={100} className='rounded-full w-16 h-16'></Image>
+
+                </button>
+                 <button onClick={() => toogleButton()} className='bg-blue-500 hover:bg-blue-600 text-white text-sm p-3 rounded-lg '>Profili Düzenle</button>
               </div>
               <div className='flex flex-col m-8'>
                 <h1 className='font-roboto mb-3'> {profile.name} {profile.lastname} </h1>
@@ -144,6 +214,7 @@ const Profile = () => {
 
 
 
+
             <div className=' flex flex-col items-center justify-center'>
               <button onClick={() => editProfile()} className='bg-blue-700 hover:bg-blue-800 text-sm text-white p-3 rounded-lg mt-8 w-24'>Kaydet</button>
 
@@ -154,6 +225,31 @@ const Profile = () => {
         </div>
       </div>
 
+
+
+
+
+
+      <div id='togels' className=' bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 invisible fixed inset-0 flex flex-row items-center justify-center'>
+        <div className='bg-white h-auto w-1/4 '>
+
+          <div className='flex flex-row justify-between items-between '>
+            <h1 className='text-3xl font-roboto text-gray-600 mt-8 mb-12 ml-4'> Fotoğrafı Güncelle </h1>
+            <button className='text-sm text-white font-roboto bg-gray-700 hover:bg-black p-3 rounded-lg w-24 h-12 mb-24 mt-6 mr-4' onClick={() => dropToogleImage()} > Kapat </button>
+          </div>
+       
+
+          <input className='mx-auto block w-64 text-lg text-gray-900 border border-gray-300 h-8 cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-indigo-700 dark:border-gray-600 dark:placeholder-gray-400' type='file' name='avatar' onChange={(e) =>setAvatar(e.target.files[0])}></input>
+          <div className='text-center mt-8'>
+            <button onClick={() => editAvatar()} className='text-sm bg-green-500 hover:bg-green-600 rounded-lg p-4 text-white mb-12'>Değişiklikleri Kaydet</button>
+
+          </div>
+
+
+
+        </div>
+
+      </div>
 
 
 
