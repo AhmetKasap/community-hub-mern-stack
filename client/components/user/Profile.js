@@ -5,6 +5,10 @@ import Link from 'next/link';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
 
+import { useSelector, useDispatch } from 'react-redux'
+import { getUserInfo } from '@/Redux/features/userInfoSlice';
+import {setReduxAvatar,setReduxName,setReduxLastName,setReduxUserName,setReduxExplanation} from '@/Redux/features/userInfoSlice';
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const editProfileSuccess = () => toast("Güncelleme Başarılı");
@@ -31,53 +35,7 @@ const Profile = () => {
   }
 
 
- 
-
-
-
-
-
-
-
-
-  const [profile, setProfile] = useState({
-    createdAt: "2",
-    email: "a",
-    explanation: "as",
-    lastname: "a",
-    name: "a",
-    password: "a",
-    updatedAt: "a",
-    username: "a",
-    __v: 0,
-    _id: "a",
-    avatar : {
-      filename: "a",
-      originalname: "a",
-      path: "a"
-    }
-  })
-  const token = Cookies.get('jsonwebtoken')
-
-  useEffect(() => {
-  
-    const api = async () => {
-      const response = await fetch('http://localhost:5000/api/user/profile', {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}` // Doğru headers yapısına dikkat edin
-        }
-      })
-
-      const userData = await response.json()
-      setProfile(userData.data)
-
-    }
-
-    api()
-  }, [])
-
-
+ const token = Cookies.get('jsonwebtoken')
 
 
   const [name, setName] = useState('')
@@ -86,16 +44,54 @@ const Profile = () => {
   const [explanation, setExplanation] = useState('')
   const [avatar,setAvatar] = useState('')
 
+
+
+  const userInfo = useSelector((state) => state.user.usersInfo)
+  console.log('state : ', userInfo)
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+      dispatch(getUserInfo())
+  },[dispatch])
+
+  const [userData, setUserData] = useState({})
+  useEffect(() => {
+      if (userInfo.data) {
+          setUserData(userInfo.data);
+      }
+  }, [userInfo]);
   
+  console.log(userData.name);
+
+
 
   const userProfileEdit = {
     name,lastname,username,explanation
   }
-  console.log(userProfileEdit)
   const jsonData = JSON.stringify(userProfileEdit)
 
   const editProfile = async () => {
-    
+    //! Redux update
+    if(name) {
+      dispatch(setReduxName(name))
+    }
+  
+    if(lastname) {
+      dispatch(setReduxLastName(lastname))
+    }
+  
+    if(username) {
+      dispatch(setReduxUserName(username))
+    }
+  
+    if(explanation) {
+      dispatch(setReduxExplanation(explanation))
+    }
+
+
+
+
+    //! database update
     const response = await fetch('http://localhost:5000/api/user/profile-edit', {
       method : 'POST',
       headers : {
@@ -108,7 +104,6 @@ const Profile = () => {
 
     
     const data = await response.json()
-    console.log(data)
     if(data.success) {
       editProfileSuccess()
       document.getElementById('togg').style.visibility = "hidden";
@@ -117,9 +112,17 @@ const Profile = () => {
 
 
   const editAvatar = async  () => {
+
     const formData = new FormData()
     formData.append('image', avatar)
+    
+    //! update redux
+    
+    if(formData) {
+      dispatch(setReduxAvatar(formData))
+    }
 
+    //! update database
 
     const response = await fetch('http://localhost:5000/api/user/profile-edit-avatar', {
       method : 'POST',
@@ -130,7 +133,6 @@ const Profile = () => {
       body : formData
     })
     const data = await response.json()
-    console.log(data)
     if(data.success) {
       editProfileSuccess()
       document.getElementById('togels').style.visibility = 'hidden'
@@ -143,21 +145,21 @@ const Profile = () => {
     <>
     
     {
-        profile !== null ? (
+        userData !== null ? (
             <div className='basis-1/4 border-2 rounded-xl h-96 mt-16'>
               <div className='flex flex-row justify-between m-8 items-center'>
                 <button onClick={toogleImage}>
-                <Image alt='avatar' src={"http://localhost:5000/uploads/"+profile.avatar} width={100} height={100} className='rounded-full w-16 h-16'></Image>
+                <Image alt='avatar' src={"http://localhost:5000/uploads/"+userData.avatar} width={100} height={100} className='rounded-full w-16 h-16'></Image>
 
                 </button>
                  <button onClick={() => toogleButton()} className='bg-blue-500 hover:bg-blue-600 text-white text-sm p-3 rounded-lg '>Profili Düzenle</button>
               </div>
               <div className='flex flex-col m-8'>
-                <h1 className='font-roboto mb-3'> {profile.name} {profile.lastname} </h1>
+                <h1 className='font-roboto mb-3'> {userData.name} {userData.lastname} </h1>
                 <h1 className='font-roboto text-gray-500 mb-3'>
-                  @{profile.username}
+                  @{userData.username}
                   </h1>
-                <h1 className='font-roboto text-gray-500 '>{profile.explanation}</h1>
+                <h1 className='font-roboto text-gray-500 '>{userData.explanation}</h1>
               </div>
               <hr></hr>
               <div className='m-8 mt-8 flex flex-row gap-12'>

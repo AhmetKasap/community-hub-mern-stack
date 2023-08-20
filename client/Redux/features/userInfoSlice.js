@@ -20,11 +20,28 @@ export const getUserInfo = createAsyncThunk('getUserInfo', async() => {   //* ap
     return data
 })
 
+
+
 export const userInfoSlice = createSlice({
     name : 'userInfo',
     initialState,
     reducers : {
-
+        setReduxAvatar : (state, action) => {
+            state.usersInfo.data.avatar = action.payload
+        },
+        setReduxName : (state, action) => {
+            state.usersInfo.data.name = action.payload
+        },
+        setReduxLastName : (state, action) => {
+            state.usersInfo.data.lastname = action.payload
+        },
+        setReduxUserName : (state, action) => {
+            state.usersInfo.data.username = action.payload
+        },
+        setReduxExplanation : (state, action) => {
+            state.usersInfo.data.explanation = action.payload
+        },
+        
     },
     extraReducers : (builder) => {
         builder.addCase(getUserInfo.fulfilled , (state, action) => {     //fulfilled, işlem gerçekleşti, pending = bekleniyor, rejected = error
@@ -32,5 +49,7 @@ export const userInfoSlice = createSlice({
         }) 
     }
 })
+
+export const {setReduxAvatar,setReduxName,setReduxLastName,setReduxUserName,setReduxExplanation} =userInfoSlice.actions
 
 export default userInfoSlice.reducer
