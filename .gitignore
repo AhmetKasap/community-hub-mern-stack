@@ -3,6 +3,7 @@ client/.next
 client/.env
 
 server/node_modules
+server/public/uploads
 
 
 server/.env

@@ -1,6 +1,5 @@
-import AddPost from '@/components/user/AddPost'
-import AiSupport from '../../../components/user/AiSupport'
-
+import AddPost from '@/components/users/PostComponents/AddPost'
+import AiSupport from '@/components/users/PostComponents/AiSupport'
 import React from 'react'
 
 const page = () => {

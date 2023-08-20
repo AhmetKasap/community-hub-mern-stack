@@ -11,6 +11,8 @@ router.use(userInfo)
 const userPost = require('../routes/user.post')
 router.use(userPost)
 
+allUsersInfos = require('../routes/all.user.info')
+router.use(allUsersInfos)
 
 
 
