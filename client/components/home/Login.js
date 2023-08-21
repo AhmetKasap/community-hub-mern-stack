@@ -14,6 +14,7 @@ const errToast = () => toast("Giriş bilgileri hatalı lütfen tekrar deneyiniz.
 const Login = () => {
   const router = useRouter();
 
+
   
 
   const dropToggle  = () => {
@@ -23,18 +24,16 @@ const Login = () => {
   }
 
 
-  const [email, setEmail] = useState('')
+  const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
 
   const user = {
-    email : email,
+    username : username,
     password : password
   }
 
   const jsonUser = JSON.stringify(user)
 
-  console.log(email)
-  console.log(password)
 
   const login = async () => {
     
@@ -45,20 +44,19 @@ const Login = () => {
     })
 
     const jsonData = await result.json()
-    console.log(jsonData)
+    console.log('sasdexxx',jsonData)
 
+    
     if(jsonData.success) {
-      router.push('/user/profile')
-      const token = jsonData.data
-      Cookies.set('jsonwebtoken', token, { expires: 7 })
+      
+      Cookies.set('jsonwebtoken', jsonData.data, { expires: 7 })
 
       loginSuccessToast()
-    }
-    else{
+      router.push(`/user/${username}`)
+    } 
+    else {
       errToast()
-      
     }
-
     
 
 
@@ -78,8 +76,8 @@ const Login = () => {
           </div>
 
           <div className='flex flex-col mt-8 m-8'>
-            <label htmlFor='email' className='text-gray-700 font-roboto mb-4 text-lg'>Email</label>
-            <input onChange={(e) => setEmail(e.target.value)} id="email"  type='email' className='h-10 border-2 border-gray-200 focus:border-4 outline-none rounded-lg bg-slate-50  font-roboto' required></input>
+            <label htmlFor='email' className='text-gray-700 font-roboto mb-4 text-lg'>Kullanıcı Adı</label>
+            <input onChange={(e) => setUserName(e.target.value)} id="email"  type='text' className='h-10 border-2 border-gray-200 focus:border-4 outline-none rounded-lg bg-slate-50  font-roboto' required></input>
 
             <label htmlFor='password' className='text-gray-700 font-roboto mb-2 mt-5 text-lg'>Şifre</label>
             <input  onChange={(e) => setPassword(e.target.value)}  id="password" type='password' className='h-10 border-2 border-gray-200 focus:border-4 outline-none rounded-lg bg-slate-50  font-roboto' required></input>

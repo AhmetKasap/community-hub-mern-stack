@@ -24,21 +24,7 @@ const userSlice = createSlice({
     name : 'user',
     initialState,
     reducers : {
-        setReduxAvatar : (state, action) => {
-            state.users.data.avatar = action.payload
-        },
-        setReduxName : (state, action) => {
-            state.users.data.name = action.payload
-        },
-        setReduxLastName : (state, action) => {
-            state.users.data.lastname = action.payload
-        },
-        setReduxUserName : (state, action) => {
-            state.users.data.username = action.payload
-        },
-        setReduxExplanation : (state, action) => {
-            state.users.data.explanation = action.payload
-        },
+       
     },
 
     extraReducers : (builder) => {

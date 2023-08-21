@@ -17,7 +17,8 @@ const getUsersInfo = async (req,res) => {
 } 
 
 const getUsersPost = async (req,res) => {
-    console.log(req.body.username)
+       
+    
 
     const user = await User.findOne({username : req.body.username})
 
@@ -37,6 +38,25 @@ const getUsersPost = async (req,res) => {
 } 
 
 
+const addPost = async (req,res) => {
+    const id = await req.user.id
+
+    const title = req.body.title
+    const content = req.body.content
+
+    User.findById(id)
+    .then(user => {
+        const post = new Post({
+            title,
+            content,
+            userRef : user._id
+        })
+        post.save()
+        return new Response(post,"eklenen post").success(res)
+    })
+}
+
+
 module.exports ={
-    getUsersInfo,getUsersPost
+    getUsersInfo,getUsersPost,addPost
 }

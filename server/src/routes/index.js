@@ -14,7 +14,8 @@ router.use(userPost)
 allUsersInfos = require('../routes/all.user.info')
 router.use(allUsersInfos)
 
-
+const admin = require('../routes/admin')
+router.use(admin)
 
 
 module.exports = router

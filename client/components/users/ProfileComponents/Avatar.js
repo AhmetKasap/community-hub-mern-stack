@@ -5,14 +5,11 @@ import Image from 'next/image'
 import { useSelector, useDispatch } from 'react-redux'
 import { userInformation } from '@/Redux/features/userSlice'
 import { useEffect,useState } from 'react'
-import Cookies from 'js-cookie'
 
 const Avatar = () => {
-  const token = Cookies.get('jsonwebtoken')
   const toogleImage = () => {
-    if(token) {
-      document.getElementById('togels').style.visibility = "visible";
-    }
+    document.getElementById('togels').style.visibility = "visible";
+    
   }
 
   const dropToogleImage = () => {

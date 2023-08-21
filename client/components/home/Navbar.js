@@ -3,8 +3,8 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import Register from './Register'
 import LoginButton from './LoginButton'
-import ProfileButton from '../user/ProfileButton'
 import Cookies from 'js-cookie'
+import ProfileButton from '../users/ProfileComponents/ProfileButton'
 
 const Navbar = () => {
 

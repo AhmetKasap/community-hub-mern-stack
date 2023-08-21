@@ -6,7 +6,7 @@ const APIError = require('../utils/Error')
 
 
 const login = async (req,res) => {
-    const checkUser = await User.findOne({email : req.body.email})
+    const checkUser = await User.findOne({username : req.body.username})
 
     if(checkUser && await bcrypt.compare(req.body.password, checkUser.password)) {
         userAuthMiddlewares.createToken(checkUser,res) //?token oluşturuldu

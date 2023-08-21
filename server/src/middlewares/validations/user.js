@@ -27,7 +27,7 @@ const register = async (req,res,next) => {
                 "string.required" : "E-mail alanı zorunludur."
 
             }),
-            username : joi.string().trim().min(3).max(50).messages({
+            username : joi.string().trim().required().min(3).max(50).messages({
                 "string.base" : "username",
                 "string.empty" : "username alanı boş bıraklılmaz.",
                 "string.min" : "Minimum 3 harfli username girmelisiniz.",
@@ -65,12 +65,12 @@ const register = async (req,res,next) => {
 const login = async (req,res,next) => {
     try {
         const schema = await joi.object({
-            email : joi.string().email().trim().min(3).max(50).required().messages({
-                "string.base" : "E-mail",
-                "string.empty" : "E-mail alanı boş bıraklılmaz.",
-                "string.min" : "Minimum 3 harfli E-mail girmelisiniz.",
-                "string.max" : "Maximum 50 harfli E-mail girmelisiniz.",
-                "string.required" : "E-mail alanı zorunludur."
+            username : joi.string().trim().min(3).max(50).required().messages({
+                "string.base" : "username",
+                "string.empty" : " usernamealanı boş bıraklılmaz.",
+                "string.min" : "Minimum 3 harfli username girmelisiniz.",
+                "string.max" : "Maximum 50 harfli username girmelisiniz.",
+                "string.required" : "username alanı zorunludur."
 
             }),
             password : joi.string().trim().min(6).max(50).required().messages({

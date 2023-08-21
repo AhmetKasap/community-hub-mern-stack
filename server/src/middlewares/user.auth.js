@@ -6,7 +6,7 @@
     const createToken = async (user,res) => {
         const payload = {
             id : user._id,
-            email : user.email,
+            username : user.username,
         }
         const token = await jwt.sign({payload}, process.env.JWT_SECRET, {expiresIn:'7d', algorithm:"HS512"})
         if (token) {

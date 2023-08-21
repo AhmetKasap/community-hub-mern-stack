@@ -27,12 +27,13 @@ const errToast = () => toast("Kayıt işlemi başarısız,tekrar deneyin. nedeni
   const [lastname , setLastname] = useState('')
   const [email , setEmail] = useState('')
   const [password , setPassword] = useState('')
+  const [username, setUserName] = useState('')
 
   const userData = {
     name,
     lastname,
     email,
-    password
+    password,username
   }
   const jsonData =  JSON.stringify(userData)
 
@@ -84,6 +85,9 @@ const errToast = () => toast("Kayıt işlemi başarısız,tekrar deneyin. nedeni
 
             <label htmlFor='email' className='text-gray-700 font-roboto mb-4 text-lg'>Email</label>
             <input onChange={(e) => setEmail(e.target.value)} id="email" type='email' className='mb-2 h-10 border-2 border-gray-200 focus:border-4 outline-none rounded-lg bg-slate-50  font-roboto text-gray-500'></input>
+
+            <label htmlFor='username' className='text-gray-700 font-roboto mb-4 text-lg mt-4'>Kullanıcı Adı</label>
+            <input onChange={(e) => setUserName(e.target.value)} id="email" type='text' className='mb-2 h-10 border-2 border-gray-200 focus:border-4 outline-none rounded-lg bg-slate-50  font-roboto text-gray-500'></input>
 
             <label htmlFor='password' className='text-gray-700 font-roboto mb-2 mt-5 text-lg'>Şifre</label>
             <input onChange={(e) => setPassword(e.target.value)} id="password" type='password' className='h-10 border-2 border-gray-200 focus:border-4 outline-none rounded-lg bg-slate-50  font-roboto text-gray-500'></input>
