@@ -37,8 +37,27 @@ const editAdmin = async (req,res) => {
 }
 
 
+
+const editAvatar = async (req,res) => {
+    const userId = await req.user.id
+    const newAvatar = req.file.filename
+    console.log(newAvatar)
+
+    const user = await User.findOneAndUpdate({_id : userId}, {avatar : newAvatar}, { new: true })
+    if(user) {
+        return new Response(user, "Güncellenen, kullanıcı bilgileri : ").success(res)
+    }
+    else{
+        return new APIError('kullanıcı verileri güncellenemedi', '404').messages(res)
+    }
+
+
+}
+
+
+
 module.exports = {
-    getAdmin, editAdmin
+    getAdmin, editAdmin,editAvatar
 }
 
 

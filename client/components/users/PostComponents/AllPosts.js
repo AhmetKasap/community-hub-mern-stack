@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react'
 import { FaRegComment } from "react-icons/fa";
 import { BiDotsHorizontalRounded, BiLike } from "react-icons/bi";
@@ -8,7 +9,7 @@ import Comment from './Comment';
 import { useSelector, useDispatch } from 'react-redux'
 import { userPosts } from '@/Redux/features/postSlice';
 import { userInformation } from '@/Redux/features/userSlice';
-
+import { admin } from '@/Redux/features/adminSlice';
 
 
 
@@ -16,9 +17,8 @@ import { userInformation } from '@/Redux/features/userSlice';
 
 const AllPosts = () => {
 
+    //!url de ki username e göre post verileri
     const username = useSelector((state) => state.params.value)
-
-
     const userPost = useSelector((state) => state.post.posts)
     const dispatch = useDispatch()
 
@@ -33,11 +33,10 @@ const AllPosts = () => {
     }, [userPost])
 
 
-    console.log('postlar ', post)
 
 
 
-
+     //!url de ki username e göre kullanıcı verileri
     const user = useSelector((state) => state.userInfo.users)
     useEffect(() => {
         dispatch(userInformation(username))
@@ -51,10 +50,35 @@ const AllPosts = () => {
     }, [user])
 
 
+     //!kullanıcı admin ise kullanıcı verileri
+
+    const [userAdminInfos, setUserAdminInfos] = useState('')
+    const userAdmin = useSelector((state) => state.admin.admins)
+    useEffect(() => {
+    dispatch(admin())
+    }, [dispatch])
+
+    useEffect(() => {
+    setUserAdminInfos(userAdmin.data)
+    }, [userAdmin])
 
 
+    //!kullanıcı admin ise avatar ı 
+
+    const userAvatar = useSelector((state) => state.adminAvatar.avatars)
+
+    const [getReduxAvatar, setGetReduxAvatar] = useState()
+    useEffect(() => {
+        if(userAvatar) {
+        setGetReduxAvatar(userAvatar.data)
+        }
+        
+    },[userAvatar])
+
+
+
+   
     
-
 
 
     return (
@@ -71,15 +95,32 @@ const AllPosts = () => {
                             <div className='flex flex-row items-center justify-between '>
                                 <div className='flex flex-row items-center'>
                                 {
-                                            userInfos ? (
-                                                <Image src={"http://localhost:5000/uploads/" + userInfos.avatar} alt='avatar' width={100} height={100} className='rounded-full w-16 h-16 mr-4'></Image>
-                                            ) : ('')
+                                getReduxAvatar && getReduxAvatar.username === username  ? (
+                                    <Image src={"http://localhost:5000/uploads/"+getReduxAvatar.avatar} alt='avatar' width={100} height={100} className='rounded-full w-16 h-16 mr-4'></Image>
+                                    ) :  userInfos ? (
+                                        <Image src={"http://localhost:5000/uploads/"+userInfos.avatar} alt='avatar' width={100} height={100} className='rounded-full w-16 h-16 mr-4'></Image>
 
-                                        }
+                                    )  : (null)
 
-                                    <h1 className='font-roboto text-gray-700'>{userInfos.name} {userInfos.lastname} </h1>
-                                    <h1 className='font-roboto text-gray-400 ml-3 '>@ {userInfos.username}</h1>
-                                    <h1 className='font-roboto text-gray-400 font-light ml-3'>{response.createdAt} </h1>
+                                }
+
+                                    {
+                                        userAdminInfos && userAdminInfos.username === username ? (
+                                            <div className='flex flex-row items-center ml-4'> 
+                                                <h1 className='font-roboto text-gray-700'>{userAdminInfos.name} {userAdminInfos.lastname} </h1>
+                                                <h1 className='font-roboto text-gray-400 ml-3 '>@ {userAdminInfos.username}</h1>
+                                                <h1 className='font-roboto text-gray-400 font-light ml-3'>{response.createdAt} </h1>
+                                            </div>
+                                        ) : userInfos ? (
+                                            <div className='flex flex-row items-center ml-4'>
+                                                <h1 className='font-roboto text-gray-700'>{userInfos.name} {userInfos.lastname} </h1>
+                                                <h1 className='font-roboto text-gray-400 ml-3 '>@ {userInfos.username}</h1>
+                                                <h1 className='font-roboto text-gray-400 font-light ml-3'>{response.createdAt} </h1>
+                                            </div>
+                                        ) : ''
+                                    }
+
+                                  
                                 </div>
                                 <button ><BiDotsHorizontalRounded className='text-3xl'></BiDotsHorizontalRounded></button>
                             </div>
@@ -118,3 +159,8 @@ const AllPosts = () => {
 }
 
 export default AllPosts
+
+
+
+
+ 

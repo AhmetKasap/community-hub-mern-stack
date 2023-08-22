@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { admin } from '@/Redux/features/adminSlice'
 import { setReduxAvatar, setReduxName, setReduxLastName, setReduxUserName, setReduxExplanation } from '@/Redux/features/adminSlice'
+
 import Cookies from 'js-cookie'
 
 const EditProfile = () => {
@@ -18,11 +19,11 @@ const EditProfile = () => {
   const [lastname, setLastname] = useState('')
   const [explanation, setExplanation] = useState('')
 
-
+  const useranme = useSelector((state) => state.params.value)
 
 
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.admin.admins)
+  const userAdmin = useSelector((state) => state.admin.admins)
 
 
   useEffect(() => {
@@ -77,33 +78,45 @@ const EditProfile = () => {
 
 
   }
+  
 
+ 
 
 
   
 
 
 
-  //* edit weritabanı
+const [adminButton, setAdminButton] = useState('')
+useEffect(() => {
+  if(userAdmin) {
+    setAdminButton(userAdmin.data)
+  }
 
-  console.log('eeeeeeeeesqqqqqqqqqqqqqqqq', user)
+},[userAdmin])
 
 
+console.log('asdas0000000000', adminButton)
 
 
 
 
 
   return (
-    //eğer http://localhost:5000/api/admin/info bu adresden gelen bilgi varsa profil butonu düzenlenebilir yani admin ise
 
 
 
     <>
 
+    {
+      adminButton && adminButton.username === useranme ? (
+        <button onClick={() => toogleButton()} className='bg-blue-600 hover:bg-blue-700 text-white text-sm p-3 rounded-lg h-12 mt-2'>Profili Düzenle</button>
+      ) : (null)
+    }
 
 
-      <button onClick={() => toogleButton()} className='bg-blue-600 hover:bg-blue-700 text-white text-sm p-3 rounded-lg h-12 mt-2'>Profili Düzenle</button>
+     
+
 
 
 

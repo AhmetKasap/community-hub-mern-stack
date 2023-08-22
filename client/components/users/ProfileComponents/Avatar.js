@@ -5,6 +5,10 @@ import Image from 'next/image'
 import { useSelector, useDispatch } from 'react-redux'
 import { userInformation } from '@/Redux/features/userSlice'
 import { useEffect,useState } from 'react'
+import Cookies from 'js-cookie'
+
+import { setReduxAvatar } from '@/Redux/features/editAvatarSlice'
+import { getAdminAvatar } from '@/Redux/features/editAvatarSlice'
 
 const Avatar = () => {
   const toogleImage = () => {
@@ -29,23 +33,105 @@ const Avatar = () => {
   }, [username])
 
 
-const [userInfos, setUserInfos] = useState()
+  const [userInfos, setUserInfos] = useState()
 
-useEffect(() => {
-  setUserInfos(user.data)
-},[user])
+  useEffect(() => {
+    setUserInfos(user.data)
+  },[user])
+
+
+
+
+
+
+  const userAvatar = useSelector((state) => state.adminAvatar.avatars)
+
+  useEffect(() => {
+    dispatch(getAdminAvatar())
+  },[dispatch])
+
+  console.log('userAvatar',userAvatar)
+
+
+  
+  const [getReduxAvatar, setGetReduxAvatar] = useState()
+  useEffect(() => {
+    if(userAvatar) {
+      setGetReduxAvatar(userAvatar.data)
+    }
+    
+  },[userAvatar])
+
+  console.log('getReduxAvatar',getReduxAvatar)
+
+  
+
+  
+
+
+
+
+
+
+
+  const [avatar,setAvatar] = useState()
+  const token = Cookies.get('jsonwebtoken')
+
+  const editAvatar = async  () => {
+
+    const formData = new FormData()
+    formData.append('image', avatar)
+    
+    //! update database
+    const response = await fetch('http://localhost:5000/api/admin/edit-avatar', {
+      method : 'POST',
+      headers : {
+        Authorization : `Bearer ${token}`,
+      },
+      
+      body : formData
+    })
+    const userAdminInfo = await response.json()
+    console.log('eeeeejuqweweqwe', userAdminInfo)
+    if(userAdminInfo.success) {
+      document.getElementById('togels').style.visibility = 'hidden'
+
+      console.log('userAdminInfo.data.avatar', userAdminInfo.data.avatar)
+      
+      //! update redux
+      dispatch(setReduxAvatar(userAdminInfo.data.avatar))
+
+    }
+     
+   
+
+
+  }
+
+
+
+
+
+
 
 
   return (
     <>  
-      {
-        userInfos ? (
+    
+     { 
+        getReduxAvatar && getReduxAvatar.username === username ? (
           <button onClick={() => toogleImage()}>
-            <Image src={"http://localhost:5000/uploads/"+userInfos.avatar} alt='avatar' width={100} height={100} className='rounded-full w-16 h-16 bg-red-300'></Image>
-          </button>
+            <Image src={"http://localhost:5000/uploads/"+getReduxAvatar.avatar} alt='avatar' width={100} height={100} className='rounded-full w-16 h-16 bg-red-300'></Image>
+           </button>
+        ) 
+        : userInfos ? (
+            <Image src={"http://localhost:5000/uploads/"+userInfos.avatar} alt='avatar' width={100} height={100} className='rounded-full w-16 h-16 bg-slate-200'></Image>
         ) : ('')
 
       }
+
+     
+   
        
 
         <div id='togels' className=' bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 invisible fixed inset-0 flex flex-row items-center justify-center'>
@@ -74,3 +160,27 @@ useEffect(() => {
 }
 
 export default Avatar
+
+
+
+/*
+
+  <button onClick={() => toogleImage()}>
+            <Image src={"http://localhost:5000/uploads/"+userInfos.avatar} alt='avatar' width={100} height={100} className='rounded-full w-16 h-16 bg-red-300'></Image>
+          </button>
+ */
+
+
+           /*
+      { 
+        userAvatar ? (
+          <button onClick={() => toogleImage()}>
+          <Image src={"http://localhost:5000/uploads/"+userAdmin.avatar} alt='avatar' width={100} height={100} className='rounded-full w-16 h-16 bg-red-300'></Image>
+           </button>
+        ) 
+        : userInfos ? (
+            <Image src={"http://localhost:5000/uploads/"+userInfos.avatar} alt='avatar' width={100} height={100} className='rounded-full w-16 h-16 bg-slate-200'></Image>
+        ) : ('')
+
+      }
+       */
