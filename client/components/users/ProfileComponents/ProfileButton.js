@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { FaUserAlt } from "react-icons/fa";
 import Link from 'next/link';
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
+import { admin } from '@/Redux/features/adminSlice';
 
 
 const ProfileButton = () => {
     
   const adminData = useSelector((state) => state.admin.admins)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(admin())
+  },[dispatch])
+
 
   const [adminProfileButton, setAdminProfileButton] = useState()
   useEffect(() => {
@@ -15,7 +22,6 @@ const ProfileButton = () => {
   }, [adminData])
 
 
-   console.log('profilesbutns',adminProfileButton)
 
   return (
     <>

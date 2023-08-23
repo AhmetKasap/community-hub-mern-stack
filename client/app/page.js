@@ -1,8 +1,8 @@
 
 import LeftNavbar from "@/components/home/LeftNavbar"
 import Navbar from "@/components/home/Navbar"
-import Main from "@/components/home/Main"
 import RightNavbar from "@/components/home/RightNavbar"
+import Card from "@/components/home/Card"
 
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
          <LeftNavbar></LeftNavbar>
         </div>
         <div className="basis-4/6">
-         <Main></Main>
+         <Card></Card>
         </div>    
         <div className="basis-1/6">
           <RightNavbar></RightNavbar>

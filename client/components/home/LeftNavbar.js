@@ -20,7 +20,7 @@ const LeftNavbar = () => {
             <FaHome className='text-3xl text-gray-700 mr-5 mb-2'></FaHome>
             <h1 className='text-xl font-roboto text-gray-700 mt-1'>Anasayfa</h1>
           </Link>
-          <Link href="/" className='flex flex-row mt-5'>
+          <Link href="/populers" className='flex flex-row mt-5'>
             <FiTrendingUp className="text-3xl text-gray-700 mr-5 mb-2"></FiTrendingUp>
             <h1 className='text-xl font-roboto text-gray-700 mt-1'>Popüler</h1>
           </Link>
@@ -43,9 +43,9 @@ const LeftNavbar = () => {
 
           <div className='hidden group-focus-within:block mt-5 ml-5 h-auto'>
             <ul>
-              <li className='mt-3'><Link href="/pop" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>NBA</Link></li>
-              <li className='mt-3'><Link href="/pop" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>UFC</Link></li>
-              <li className='mt-3'><Link href="/pop" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>UCL</Link></li>
+              <li className='mt-3'><Link href="/categories/NBA" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>NBA</Link></li>
+              <li className='mt-3'><Link href="/categories/UFC" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>UFC</Link></li>
+              <li className='mt-3'><Link href="/categories/UCL" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>UCL</Link></li>
             </ul>
           </div>
 
@@ -62,10 +62,10 @@ const LeftNavbar = () => {
 
           <div className='hidden group-focus-within:block mt-5 ml-5 h-auto'>
             <ul>
-              <li className='mt-3'><Link href="/pop" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>CS:GO</Link></li>
-              <li className='mt-3'><Link href="/pop" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Valorant</Link></li>
-              <li className='mt-3'><Link href="/pop" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Metin2</Link></li>
-              <li className='mt-3'><Link href="/pop" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Fifa</Link></li>
+              <li className='mt-3'><Link href="/categories/CS-GO" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>CS:GO</Link></li>
+              <li className='mt-3'><Link href="/categories/Valorant" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Valorant</Link></li>
+              <li className='mt-3'><Link href="/categories/Metin2" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Metin2</Link></li>
+              <li className='mt-3'><Link href="/categories/Fifa" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Fifa</Link></li>
 
             </ul>
           </div>
@@ -83,10 +83,10 @@ const LeftNavbar = () => {
 
           <div className='hidden group-focus-within:block mt-5 ml-5 h-auto'>
             <ul>
-              <li className='mt-3'><Link href="/pop" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Bitcoin</Link></li>
-              <li className='mt-3'><Link href="/pop" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Avax</Link></li>
-              <li className='mt-3'><Link href="/pop" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Etherium</Link></li>
-              <li className='mt-3'><Link href="/pop" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Sol</Link></li>
+              <li className='mt-3'><Link href="/categories/Bitcoin" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Bitcoin</Link></li>
+              <li className='mt-3'><Link href="/categories/Avax" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Avax</Link></li>
+              <li className='mt-3'><Link href="/categories/Etherium" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Etherium</Link></li>
+              <li className='mt-3'><Link href="/categories/Sol" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Sol</Link></li>
 
             </ul>
           </div>
@@ -105,8 +105,8 @@ const LeftNavbar = () => {
 
           <div className='hidden group-focus-within:block mt-5 ml-5 h-auto'>
             <ul>
-              <li className='mt-3'><Link href="/pop" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Osmanlı</Link></li>
-              <li className='mt-3'><Link href="/pop" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Roma</Link></li>
+              <li className='mt-3'><Link href="/categories/Osmanli" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Osmanlı</Link></li>
+              <li className='mt-3'><Link href="/categories/Roma" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Roma</Link></li>
             </ul>
           </div>
 
@@ -123,9 +123,9 @@ const LeftNavbar = () => {
 
           <div className='hidden group-focus-within:block mt-5 ml-5 h-auto'>
             <ul>
-              <li className='mt-3'><Link href="/pop" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Radyoaktivite</Link></li>
-              <li className='mt-3'><Link href="/pop" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Kara Delikler</Link></li>
-              <li className='mt-3'><Link href="/pop" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Paralel Evrenler</Link></li>
+              <li className='mt-3'><Link href="/categories/Radyoaktivite" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Radyoaktivite</Link></li>
+              <li className='mt-3'><Link href="/categories/Kara-Delikler" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Kara Delikler</Link></li>
+              <li className='mt-3'><Link href="/categories/Paralel-Evrenler" className='text-sm text-gray-500 font-roboto  hover:text-gray-700 '>Paralel Evrenler</Link></li>
             </ul>
           </div>
 

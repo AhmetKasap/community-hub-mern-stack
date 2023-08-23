@@ -57,6 +57,34 @@ const addPost = async (req,res) => {
 }
 
 
+
+
+
+
+const getCategoriesPost = async (req,res) => {
+
+    const categories = req.body.categories
+
+    
+
+    const post = await Post.find({ content: { $regex: categories, $options: 'i' } })
+        .populate('userRef', 'name lastname avatar username ') // 'user' referansını doldur, sadece 'username' ve 'email' alanlarını getir
+    if(post) {
+        return new Response(post, `${categories} ile eşleşen postlar`).success(res)
+    }
+    else {
+        return new Response(post, `${categories} ile eşleşen post bulunamadı`).error404(res)
+
+    }
+
+
+}
+
+
+
+
+
+
 module.exports ={
-    getUsersInfo,getUsersPost,addPost
+    getUsersInfo,getUsersPost,addPost,getCategoriesPost
 }
