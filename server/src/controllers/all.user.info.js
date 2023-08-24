@@ -68,7 +68,7 @@ const getCategoriesPost = async (req,res) => {
     
 
     const post = await Post.find({ content: { $regex: categories, $options: 'i' } })
-        .populate('userRef', 'name lastname avatar username ') // 'user' referansını doldur, sadece 'username' ve 'email' alanlarını getir
+        .populate('userRef', 'name lastname avatar username ') 
     if(post) {
         return new Response(post, `${categories} ile eşleşen postlar`).success(res)
     }
@@ -81,10 +81,22 @@ const getCategoriesPost = async (req,res) => {
 }
 
 
+const postDetails = async (req,res) => {
+
+    const postId = await req.body.postId
+    const post = await Post.findById(postId)
+    .populate('userRef', 'name lastname avatar username')
+
+    if(post) {
+        return new Response(post, 'post detayları').success(res)
+    }
+
+}
+
 
 
 
 
 module.exports ={
-    getUsersInfo,getUsersPost,addPost,getCategoriesPost
+    getUsersInfo,getUsersPost,addPost,getCategoriesPost,postDetails
 }

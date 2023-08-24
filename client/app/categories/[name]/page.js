@@ -92,7 +92,7 @@ const page = ({ params }) => {
                                                     <button ><BiDotsHorizontalRounded className='text-3xl'></BiDotsHorizontalRounded></button>
                                                 </div>
 
-                                                <Link href="/detay" >
+                                                <Link href={"/details/"+data._id} >
                                                     <div className='mt-5 mb-5'>
                                                         <p className='font-opsenSans '>
                                                             <p> {data.content} </p>
@@ -109,7 +109,7 @@ const page = ({ params }) => {
                                                         <span className='ml-3 font-rem'>0</span>
                                                     </Link>
 
-                                                    <Link href="/" className='flex flex-row items-center focus:text-blue-500'>
+                                                    <Link href={"/details/"+data._id}  className='flex flex-row items-center focus:text-blue-500'>
                                                         <FaRegComment className='text-xl'></FaRegComment>
                                                         <span className='ml-3 font-rem'>0</span>
                                                     </Link>

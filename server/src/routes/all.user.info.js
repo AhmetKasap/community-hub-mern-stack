@@ -8,5 +8,8 @@ router.post('/user/post', userAllControllers.addPost)
 
 router.post('/categories/post', userAllControllers.getCategoriesPost)
 
+router.post('/post/details', userAllControllers.postDetails)
+
+
 
 module.exports = router
