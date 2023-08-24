@@ -1,5 +1,6 @@
 const User = require('../models/user')
 const Post = require('../models/post')
+const Comment = require('../models/comment')
 const Response = require('../utils/Response')
 
 
@@ -93,10 +94,53 @@ const postDetails = async (req,res) => {
 
 }
 
+const addComment = async (req,res) => {
+    const userId = req.user.id
+
+    const userComment = req.body.content
+    const postId = req.body.postId
+
+
+
+    if(userId) {
+        const post = await Post.findById(postId)
+        if(post) {
+            const comment = await new Comment({
+            
+                content : userComment,
+                postRef : post._id
+            })
+            comment.save()
+    
+            return new Response(comment, 'yorum eklendi').success(res)
+
+        }
+
+    }
+}
+
+
+const postComments = async (req,res) => {
+    const postId = await req.body.postId
+    const post = await Post.findById(postId)
+    if(post) {
+        const comment = await Comment.find({postRef : post._id})
+
+        return new Response (comment, 'post yorumlari').success(res)
+    }
+
+}
+
+
+
+
+
+
+
 
 
 
 
 module.exports ={
-    getUsersInfo,getUsersPost,addPost,getCategoriesPost,postDetails
+    getUsersInfo,getUsersPost,addPost,getCategoriesPost,postDetails,addComment,postComments
 }
