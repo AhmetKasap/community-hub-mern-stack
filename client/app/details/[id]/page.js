@@ -10,9 +10,15 @@ import { BiDotsHorizontalRounded, BiLike } from "react-icons/bi";
 import Link from 'next/link'
 import Image from 'next/image'
 
+import { useSelector, useDispatch } from 'react-redux'
+import { postComments } from '@/Redux/features/commentSlice'
+import Cookies from 'js-cookie'
+import { updateComment } from '@/Redux/features/commentSlice'
+
+
 const page = ({ params }) => {
 
-
+    const token = Cookies.get('jsonwebtoken')
 
     const postId = params.id
 
@@ -38,6 +44,66 @@ const page = ({ params }) => {
 
 
     console.log(postDetail)
+
+
+
+    //! comment
+
+    const comment = useSelector((state) => state.postComment.comment)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(postComments(postId))
+
+    }, [dispatch])
+
+
+    const [userComment, setUserComment] = useState()
+
+    const data = {
+        content: userComment,
+        postId: postId
+    }
+
+    const jsonData = JSON.stringify(data)
+
+
+    const addComment = async () => {
+        //veritabanı güncelleme
+        const response = await fetch('http://localhost:5000/api/post/add-comment', {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: jsonData
+        })
+        const res = await response.json()
+        console.log(res)
+        if (res) {
+            //redux güncelleme
+            dispatch(updateComment(res.data))
+        }
+
+
+    }
+
+    console.log('redux comment', comment)
+
+
+    if (comment && comment.data) {
+        console.log(comment.data.length)
+    }
+
+
+
+
+
+
+
+
+
+
 
     return (
         <>
@@ -85,7 +151,14 @@ const page = ({ params }) => {
 
                                             <Link href="/" className='flex flex-row items-center focus:text-blue-500'>
                                                 <FaRegComment className='text-xl'></FaRegComment>
-                                                <span className='ml-3 font-rem'>0</span>
+                                                <span className='ml-3 font-rem'>
+                                                    {
+                                                        comment && comment.data ? (
+                                                            comment.data.length
+                                                        ) :
+                                                            ('0')
+                                                    }
+                                                </span>
                                             </Link>
                                         </div>
 
@@ -97,94 +170,58 @@ const page = ({ params }) => {
                             (null)
                     }
 
+
                     <div className='w-3/4 mx-auto text-center mt-12 mb-12 flex flex-col border-2'>
-                        <textarea placeholder='Yanıtla' type='text' className='w-1/2 outline-none text-xl resize-none mx-auto '  cols={4} rows={4}/>
+                        <textarea onChange={(e) => setUserComment(e.target.value)} placeholder='Yanıtla' type='text' className='w-1/2 outline-none text-xl resize-none mx-auto ' cols={4} rows={4} />
+                        <button onClick={() => addComment()} className='bg-blue-600 hover:bg-blue-700 text-sm font-roboto text-white p-3 rounded-lg w-24'>Yanıtla</button>
                     </div>
 
-                        
-
-                    
-                    
-
-                    <div className=' w-3/4 mx-auto h-auto border-2  '>
-                        <div className=' w-5/6 mx-auto '>
-                            <div className='flex flex-row items-center justify-between '>
-                                <div className='flex flex-row items-center'>
-                                    <FaUserAlt className='rounded-full w-12 h-12 m-2 text-blue-500'></FaUserAlt>
-                                    <h1 className='font-roboto text-gray-700'>Kullanıcı Ad</h1>
-                                    <h1 className='font-roboto text-gray-400 ml-3 '>@ User Name</h1>
-                                    <h1 className='font-roboto text-gray-400 font-light ml-3'> - tarih</h1>
-                                </div>
-                                <button ><BiDotsHorizontalRounded className='text-3xl'></BiDotsHorizontalRounded></button>
-                            </div>
-
-                            <Link href="/detay" >
-                                <div className='mt-5 mb-5'>
-                                    <p className='font-opsenSans '>
-                                        YORUMLAR
-                                    </p>
 
 
-                                </div>
-                            </Link>
+                    {
+                        comment && comment.data ? (
+                            comment.data.map(result => {
+                                return (
+                                    <div className=' w-3/4 mx-auto h-auto border-2  '>
+                                        <div className=' w-5/6 mx-auto '>
+                                            <div className='flex flex-row items-center justify-between '>
+                                                <div className='flex flex-row items-center'>
+                                                    <Image src={"http://localhost:5000/uploads/" + result.userRef.avatar} alt='avatar' width={100} height={100} className='rounded-full w-16 h-16 mr-4'></Image>
+                                                    <h1 className='font-roboto text-gray-700'>{result.userRef.name} {result.userRef.lastname} </h1>
+                                                    <h1 className='font-roboto text-gray-400 ml-3 '>@ {result.userRef.username} </h1>
+                                                    <h1 className='font-roboto text-gray-400 font-light ml-3'> {result.createdAt}  </h1>
+                                                </div>
+                                                <button ><BiDotsHorizontalRounded className='text-3xl'></BiDotsHorizontalRounded></button>
+                                            </div>
 
-                            <hr></hr>
+                                            <Link href="/detay" >
+                                                <div className='mt-5 mb-5'>
+                                                    <p className='font-opsenSans '>
+                                                        {result.content}
+                                                    </p>
+                                                </div>
+                                            </Link>
 
-                        </div>
-                    </div>
-                    <div className=' w-3/4 mx-auto h-auto border-2  '>
-                        <div className=' w-5/6 mx-auto '>
-                            <div className='flex flex-row items-center justify-between '>
-                                <div className='flex flex-row items-center'>
-                                    <FaUserAlt className='rounded-full w-12 h-12 m-2 text-blue-500'></FaUserAlt>
-                                    <h1 className='font-roboto text-gray-700'>Kullanıcı Ad</h1>
-                                    <h1 className='font-roboto text-gray-400 ml-3 '>@ User Name</h1>
-                                    <h1 className='font-roboto text-gray-400 font-light ml-3'> - tarih</h1>
-                                </div>
-                                <button ><BiDotsHorizontalRounded className='text-3xl'></BiDotsHorizontalRounded></button>
-                            </div>
+                                            <hr></hr>
 
-                            <Link href="/detay" >
-                                <div className='mt-5 mb-5'>
-                                    <p className='font-opsenSans '>
-                                        YORUMLAR
-                                    </p>
-
-
-                                </div>
-                            </Link>
-
-                            <hr></hr>
-
-                        </div>
-                    </div>
-                    <div className=' w-3/4 mx-auto h-auto border-2  '>
-                        <div className=' w-5/6 mx-auto '>
-                            <div className='flex flex-row items-center justify-between '>
-                                <div className='flex flex-row items-center'>
-                                    <FaUserAlt className='rounded-full w-12 h-12 m-2 text-blue-500'></FaUserAlt>
-                                    <h1 className='font-roboto text-gray-700'>Kullanıcı Ad</h1>
-                                    <h1 className='font-roboto text-gray-400 ml-3 '>@ User Name</h1>
-                                    <h1 className='font-roboto text-gray-400 font-light ml-3'> - tarih</h1>
-                                </div>
-                                <button ><BiDotsHorizontalRounded className='text-3xl'></BiDotsHorizontalRounded></button>
-                            </div>
-
-                            <Link href="/detay" >
-                                <div className='mt-5 mb-5'>
-                                    <p className='font-opsenSans '>
-                                        YORUMLAR
-                                    </p>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        ) : (null)
+                    }
 
 
-                                </div>
-                            </Link>
 
-                            <hr></hr>
 
-                        </div>
-                    </div>
-                   
+
+
+
+
+
+
+
+
 
 
 

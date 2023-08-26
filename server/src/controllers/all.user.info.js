@@ -108,9 +108,16 @@ const addComment = async (req,res) => {
             const comment = await new Comment({
             
                 content : userComment,
-                postRef : post._id
+                postRef : post._id,
+                userRef : userId
             })
-            comment.save()
+            await comment.save()            
+            await comment.populate('userRef', 'name lastname avatar username')
+
+            
+
+
+            
     
             return new Response(comment, 'yorum eklendi').success(res)
 
@@ -125,6 +132,7 @@ const postComments = async (req,res) => {
     const post = await Post.findById(postId)
     if(post) {
         const comment = await Comment.find({postRef : post._id})
+        .populate('userRef', 'name lastname avatar username')
 
         return new Response (comment, 'post yorumlari').success(res)
     }

@@ -5,6 +5,7 @@ import userSlice from './features/userSlice'
 import postSlice from './features/postSlice'
 import adminSlice from './features/adminSlice'
 import editAvatarSlice from './features/editAvatarSlice'
+import commentSlice from './features/commentSlice'
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     userInfo : userSlice,
     post : postSlice,
     admin : adminSlice,
-    adminAvatar : editAvatarSlice
+    adminAvatar : editAvatarSlice,
+    postComment :commentSlice
   },
 })

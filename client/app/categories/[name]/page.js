@@ -7,6 +7,8 @@ import { FaUserAlt, FaRegComment } from "react-icons/fa";
 import { BiDotsHorizontalRounded, BiLike } from "react-icons/bi";
 import Link from 'next/link';
 import Image from 'next/image'
+import {useSelector, useDispatch} from 'react-redux'
+import { postComments } from '@/Redux/features/commentSlice'
 
 const page = ({ params }) => {
     //<p> {params.name} </p>
@@ -44,15 +46,31 @@ const page = ({ params }) => {
     }, [categories])
 
 
+    console.log('allPost', allPost)
+
+
+    const comments = useSelector((state) => state.postComment.comment)
+    const dispatch = useDispatch()
+
+
+    useEffect(() => {
+
+            console.log('allPost', allPost)
+
+
+            if(allPost) {
+                allPost.map(response => {
+                    console.log()
+                    dispatch(postComments(response._id))
+                })
+            }
+    },[allPost])
 
 
 
-    console.log('postlar geldi ', allPost)
+    console.log('comments',comments)
 
-
-
-
-
+   
 
     return (
         <>
@@ -74,6 +92,8 @@ const page = ({ params }) => {
                     {
                         allPost ? (
                             allPost.map(data => {
+                                
+
                                 return (
                                     <>
 
@@ -111,7 +131,14 @@ const page = ({ params }) => {
 
                                                     <Link href={"/details/"+data._id}  className='flex flex-row items-center focus:text-blue-500'>
                                                         <FaRegComment className='text-xl'></FaRegComment>
-                                                        <span className='ml-3 font-rem'>0</span>
+                                                        <span className='ml-3 font-rem'>
+
+                                                            {
+                                                                comments && comments.data && comments.data[0].postRef && comments.data[0].postRef === data._id ? (
+                                                                    comments.data.length
+                                                                ) : (0)
+                                                            }
+                                                        </span>
                                                     </Link>
                                                 </div>
                                             </div>
