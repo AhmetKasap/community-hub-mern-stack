@@ -7,8 +7,7 @@ import { FaUserAlt, FaRegComment } from "react-icons/fa";
 import { BiDotsHorizontalRounded, BiLike } from "react-icons/bi";
 import Link from 'next/link';
 import Image from 'next/image'
-import {useSelector, useDispatch} from 'react-redux'
-import { postComments } from '@/Redux/features/commentSlice'
+
 
 const page = ({ params }) => {
     //<p> {params.name} </p>

@@ -17,6 +17,41 @@ const getUsersInfo = async (req, res) => {
 
 }
 
+
+const getUsersPost = async (req, res) => {
+    const username = req.body.username;
+
+    // Kullanıcı bilgilerini bul
+    const user = await User.findOne({ username });
+
+    if (!user) {
+        return new Response('Böyle bir kullanıcı yok').error404(res);
+    }
+
+    // Kullanıcının postlarını bul
+    const userPosts = await Post.find({ userRef: user._id })
+        .populate('userRef', 'name lastname avatar username');
+
+    // Kullanıcının postlarının _id değerlerini alarak bu postlara ait yorumları bul
+    const userPostIds = userPosts.map(post => post._id);
+    const userComments = await Comment.find({ postRef: { $in: userPostIds } })
+        .populate('userRef', 'name lastname avatar username')
+        .populate('postRef', 'title content');
+
+    // Kullanıcının postlarını ve bu postlara ait yorumları birleştirip dön
+    const userPostsWithComments = userPosts.map(post => {
+        const postComments = userComments.filter(comment => comment.postRef.equals(post._id));
+        return {
+            post: post,
+            comments: postComments
+        };
+    });
+
+    return new Response(userPostsWithComments, 'Kullanıcının postları ve yorumları').success(res);
+}
+
+
+/*
 const getUsersPost = async (req, res) => {
 
 
@@ -34,9 +69,16 @@ const getUsersPost = async (req, res) => {
     }
 
 
-
-
 }
+
+*/
+
+
+
+
+
+
+
 
 
 const addPost = async (req, res) => {

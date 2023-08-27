@@ -77,6 +77,10 @@ const AllPosts = () => {
 
 
 
+
+    if(post) {
+        console.log('post',post)
+    }
    
     
 
@@ -128,7 +132,7 @@ const AllPosts = () => {
                             <Link href="/detay" >
                                 <div className='mt-5 mb-5'>
                                     <p className='font-opsenSans '>
-                                        {response.content}
+                                        {response.post.content}
 
                                     </p>
 
@@ -140,7 +144,20 @@ const AllPosts = () => {
 
                             <div className='flex flex-row'>
                                 <Like></Like>
-                                <Comment></Comment>
+                                
+                                <button className='flex flex-row ml-16 mt-8'>
+                                    <Link href={"/details/"+response.post._id}>
+                                        <FaRegComment className='text-xl font-roboto text-black'></FaRegComment>
+                                    </Link>
+                                    <span className='ml-2 font-roboto'>
+                                        {
+                                            response.comments.length
+                                        }
+
+                                    </span>
+                                </button>
+
+
                             </div>
 
                         </div>

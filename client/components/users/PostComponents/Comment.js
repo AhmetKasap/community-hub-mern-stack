@@ -1,13 +1,29 @@
-import React from 'react'
+'use client'
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react'
 import {  FaRegComment } from "react-icons/fa";
 
 
-const Comment = () => {
+const Comment = (props) => {
+
+  const postId = props.posts
+  console.log('postId', typeof(postId))
+
+ 
+
+
+
   return (
     <>
         <button className='flex flex-row ml-16 mt-8'>
-            <FaRegComment className='text-xl font-roboto text-black'></FaRegComment>
-            <span className='ml-2 font-roboto'>0</span>
+            <Link href={"/details/"+postId}>
+              <FaRegComment className='text-xl font-roboto text-black'></FaRegComment>
+
+            </Link>
+            <span className='ml-2 font-roboto'>
+         
+              
+            </span>
         </button>
     </>
   )
