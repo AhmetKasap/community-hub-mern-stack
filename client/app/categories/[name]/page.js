@@ -106,7 +106,7 @@ const page = ({ params }) => {
                                                         <span className='ml-3 font-rem'>0</span>
                                                     </Link>
 
-                                                    <Link href={"/details/"+data._id}  className='flex flex-row items-center focus:text-blue-500'>
+                                                    <Link href={"/details/"+data.post._id}  className='flex flex-row items-center focus:text-blue-500'>
                                                         <FaRegComment className='text-xl'></FaRegComment>
                                                         <span className='ml-3 font-rem'>
 

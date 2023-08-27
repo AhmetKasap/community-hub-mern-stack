@@ -2,6 +2,7 @@ const User = require('../models/user')
 const Post = require('../models/post')
 const Comment = require('../models/comment')
 const Response = require('../utils/Response')
+require('dotenv').config()
 
 
 const getUsersInfo = async (req, res) => {
@@ -47,7 +48,7 @@ const getUsersPost = async (req, res) => {
         };
     });
 
-    return new Response(userPostsWithComments, 'Kullanıcının postları ve yorumları').success(res);
+    return new Response(userPostsWithComments.reverse(), 'Kullanıcının postları ve yorumları').success(res);
 }
 
 
@@ -126,7 +127,7 @@ const getCategoriesPost = async (req, res) => {
             };
         });
 
-        return new Response(postsWithComments, 'Postlar ve yorumlar').success(res);
+        return new Response(postsWithComments.reverse(), 'Postlar ve yorumlar').success(res);
     } else {
         return new Response([], `${categories} ile eşleşen post bulunamadı`).error404(res);
     }
@@ -229,7 +230,26 @@ const postComments = async (req, res) => {
 }
 
 
+//*config openAI
+const Configuration = require("openai");
+const OpenAIApi = require('openai')
+const configuration = new Configuration({
 
+    apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+
+const chatGpt = async (req, res) => {
+    const userData = await req.body.userData
+
+    const completion = await openai.chat.completions.create({
+        messages: [{ role: "system", content: userData }],
+        model: "gpt-3.5-turbo",
+      });
+
+    return new Response(completion.choices[0],'').success(res)
+
+}
 
 
 
@@ -239,5 +259,5 @@ const postComments = async (req, res) => {
 
 
 module.exports = {
-    getUsersInfo, getUsersPost, addPost, getCategoriesPost, postDetails, addComment, postComments
+    getUsersInfo, getUsersPost, addPost, getCategoriesPost, postDetails, addComment, postComments, chatGpt
 }

@@ -18,7 +18,7 @@ const Page = ({ params }) => {
 
   useEffect(() => {
     dispatch(setParams(user))
-  }, [])
+  }, [user,dispatch ])
 
   
 
@@ -31,10 +31,10 @@ const Page = ({ params }) => {
     
       <div className='flex flex-row w-3/4 mx-auto mt-8'>
         <div className='basis-1/4'>
-          <Profile></Profile>
+          <Profile key={`profile-${userParams}`} />
         </div>
         <div className='basis-3/4'>
-          <Post></Post>
+          <Post key={`post-${userParams}`} />
         </div>
     </div>
 

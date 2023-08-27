@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import EditProfile from './ProfileComponents/EditProfile'
 import Avatar from './ProfileComponents/Avatar'
@@ -5,8 +6,19 @@ import UserInfo from './ProfileComponents/UserInfo'
 import Follow from './ProfileComponents/Follow'
 import Followed from './ProfileComponents/Followed'
 import Follower from './ProfileComponents/Follower'
+import {useSelector, useDispatch} from 'react-redux'
+import { useEffect } from 'react'
+
 
 const Profile = () => {
+
+  const userParams = useSelector((state) => state.params.value)
+
+  useEffect(() => {
+    
+  }, [userParams ])
+
+
   return (
     <>
         <div className='w-96 h-96 border rounded-lg mb-12'>

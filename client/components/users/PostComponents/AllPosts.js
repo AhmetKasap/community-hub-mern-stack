@@ -89,7 +89,7 @@ const AllPosts = () => {
         <>
 
             {
-                post ? ( 
+                post && Array.isArray(post) ? ( 
                     
                     post.map(response => {
                         return(
