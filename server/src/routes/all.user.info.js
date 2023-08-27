@@ -14,4 +14,6 @@ router.post('/post/details', userAllControllers.postDetails)
 router.post('/post/add-comment', authControllers.checkToken, userAllControllers.addComment)
 router.post('/post/comments', userAllControllers.postComments)
 
+
+
 module.exports = router

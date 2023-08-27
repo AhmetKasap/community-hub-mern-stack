@@ -46,29 +46,7 @@ const page = ({ params }) => {
     }, [categories])
 
 
-    console.log('allPost', allPost)
-
-
-    const comments = useSelector((state) => state.postComment.comment)
-    const dispatch = useDispatch()
-
-
-    useEffect(() => {
-
-            console.log('allPost', allPost)
-
-
-            if(allPost) {
-                allPost.map(response => {
-                    console.log()
-                    dispatch(postComments(response._id))
-                })
-            }
-    },[allPost])
-
-
-
-    console.log('comments',comments)
+   
 
    
 
@@ -100,22 +78,22 @@ const page = ({ params }) => {
                                         <div className=' w-3/4 mx-auto h-auto border-2 rounded-xl mb-8'>
                                             <div className=' w-5/6 mx-auto mt-5 mb-5'>
                                                 <div className='flex flex-row items-center justify-between '>
-                                                    <Link href={"/user/"+data.userRef.username}>
+                                                    <Link href={"/user/"+data.post.userRef.username}>
                                                         <div className='flex flex-row items-center'>
-                                                            <Image src={"http://localhost:5000/uploads/"+data.userRef.avatar} alt='avatar' width={100} height={100} className='rounded-full w-16 h-16 mr-4'></Image>
-                                                            <h1 className='font-roboto text-gray-700'>{data.userRef.name}  {data.userRef.lastname}</h1>
-                                                            <h1 className='font-roboto text-gray-400 ml-3 '>{data.userRef.username}</h1>
-                                                            <h1 className='font-roboto text-gray-400 font-light ml-3'> {data.createdAt} </h1>
+                                                            <Image src={"http://localhost:5000/uploads/"+data.post.userRef.avatar} alt='avatar' width={100} height={100} className='rounded-full w-16 h-16 mr-4'></Image>
+                                                            <h1 className='font-roboto text-gray-700'>{data.post.userRef.name}  {data.post.userRef.lastname}</h1>
+                                                            <h1 className='font-roboto text-gray-400 ml-3 '>{data.post.userRef.username}</h1>
+                                                            <h1 className='font-roboto text-gray-400 font-light ml-3'> {data.post.createdAt} </h1>
                                                         </div>
                                                     </Link>
                                                    
                                                     <button ><BiDotsHorizontalRounded className='text-3xl'></BiDotsHorizontalRounded></button>
                                                 </div>
 
-                                                <Link href={"/details/"+data._id} >
+                                                <Link href={"/details/"+data.post._id} >
                                                     <div className='mt-5 mb-5'>
                                                         <p className='font-opsenSans '>
-                                                            <p> {data.content} </p>
+                                                            <p> {data.post.content} </p>
                                                         </p>
 
 
@@ -134,9 +112,7 @@ const page = ({ params }) => {
                                                         <span className='ml-3 font-rem'>
 
                                                             {
-                                                                comments && comments.data && comments.data[0].postRef && comments.data[0].postRef === data._id ? (
-                                                                    comments.data.length
-                                                                ) : (0)
+                                                                data.comments.length
                                                             }
                                                         </span>
                                                     </Link>
