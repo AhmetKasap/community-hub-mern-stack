@@ -4,6 +4,7 @@ const Comment = require('../models/comment')
 const Response = require('../utils/Response')
 const Like = require('../models/like')
 const Follow = require('../models/follow')
+const Followed = require('../models/followed')
 require('dotenv').config()
 
 
@@ -247,69 +248,104 @@ const chatGpt = async (req, res) => {
     const completion = await openai.chat.completions.create({
         messages: [{ role: "system", content: userData }],
         model: "gpt-3.5-turbo",
-      });
+    });
 
-    return new Response(completion.choices[0],'').success(res)
+    return new Response(completion.choices[0], '').success(res)
 
 }
 
 
-const addFollow = async (req,res) => {
+const addFollow = async (req, res) => {
 
-    //tokeni olan kullanıcı usernamei olan kullanıcııyı takip edebilecek.
+    
 
     const id = await req.user.id
     const followUsername = await req.user.username
-    const username =await req.body.username
+    const username = await req.body.username
 
-    const user = await User.findOne({username : username})
+    const user = await User.findOne({ username: username })
 
-    if(id) { //token varsa
-        const follower = await Follow.findOne({userRef : user._id})  
-        if(follower) { //kullanıcı takipçi modeli daha önceden oluşturulmuş ise
+    //* tokeni olan kullanıcı, username olan birini takip edince takip ettiklerini göreceğiz.
+    const followed = await Followed.findOne({userRef : id})
 
-            await follower.follower.push(followUsername)
-            await follower.save()
-    
-            return new Response(follower, 'takipçi ekleni').success(res)
-        }
-        else{ //kullanıcı takipçisi daha önceden yok ise 
-            const follow = await new Follow({
-                follower : [followUsername],
-                userRef : user._id
-            })
-            await follow.save()
-            return new Response(follow, 'takipçi ekleni').success(res)
+    if(followed) {
+        await followed.follows.push(username)
+        await followed.save()
+        
+    }
+    else {
 
-        }
-      
+        const newFollowed = await new Followed({
+            follows: [username],
+            userRef: id
+        })
+
+        await newFollowed.save()
 
     }
 
+    //*tokeni olan kullanıcı usernamei olan kullanıcııyı takip edebilecek.
+    const follower = await Follow.findOne({ userRef: user._id })
+    if (follower) { //kullanıcı takipçi modeli daha önceden oluşturulmuş ise
+
+        await follower.follower.push(followUsername)
+        await follower.save()
+
+        const userInfos = await Follow.findOne({userRef : user._id})
+            .populate('userRef', 'name lastname avatar username')
+        
+        return new Response(userInfos, 'takipçi ekleni').success(res)
+    }
+    else { //kullanıcı takipçisi daha önceden yok ise 
+        const follow = await new Follow({
+            follower: [followUsername],
+            userRef: user._id
+        })
+
+        await follow.save()
+        return new Response(follow, 'takipçi ekleni').success(res)
+
+    }
+
+
 }
 
-const unFollow = async (req,res) => {
+const unFollow = async (req, res) => {
 
     const id = req.user.id
     const tokenUserName = req.user.username
 
     const username = req.body.username
-    const user = await User.findOne({username : username})
+    const user = await User.findOne({ username: username })
+
+
+    //* tokeni olan kullanıcı, username olan birini takip edince takip ettiklerini göreceğiz.
+
+    const userFollowed = await Followed.findOne({userRef : id})
+    if(userFollowed) {
+        await userFollowed.updateOne({$pull : {follows : username}})
+    }
 
 
 
-    //Tokeni olan kullanıcı username olan bir kullanıcıyı takip ediyorsa, takipten çıkartabilecek
-    if(id) {
-        const follow = await Follow.findOne({follower : tokenUserName})
+
+    //*Tokeni olan kullanıcı username olan bir kullanıcıyı takip ediyorsa, takipten çıkartabilecek
+    if (id) {
+        const follow = await Follow.findOne({ follower: tokenUserName })
 
         if (follow) {
-            const check = await follow.updateOne({ $pull: { follower: tokenUserName } }, {new:true});
-            if(check) {
-                const updated = await Follow.find({userRef : user._id})
-                return new Response(updated, 'takipden çıkıldı').success(res)
+            const check = await follow.updateOne({ $pull: { follower: tokenUserName } }, { new: true });
+            if (check) {
+                await Follow.find({ userRef: user._id })
+
+                const userInfos = await Follow.findOne({userRef : user._id})
+                .populate('userRef', 'name lastname avatar username')
+
+                return new Response(userInfos, 'takipden çıkıldı').success(res)
+
 
             }
-            
+
         }
         else {
             return new Response('sssssssss yoks').success(res)
@@ -325,9 +361,30 @@ const unFollow = async (req,res) => {
 }
 
 
+const myFollowed = async (req,res) => {
+
+    const username = await req.body.username
+    const usernameId = await User.findOne({username : username})
+
+    const followed = await Followed.findOne({userRef : usernameId})
+        .populate('userRef', 'name lastname avatar username')
+
+    if(followed) {
+        return new Response(followed, 'kullanıcını takitp ettikleri').success(res)
+    }
+
+
+
+
+}
+
+
+
+
+
 
 
 
 module.exports = {
-    getUsersInfo, getUsersPost, addPost, getCategoriesPost, postDetails, addComment, postComments, chatGpt, addFollow, unFollow
+    getUsersInfo, getUsersPost, addPost, getCategoriesPost, postDetails, addComment, postComments, chatGpt, addFollow, unFollow,myFollowed
 }
