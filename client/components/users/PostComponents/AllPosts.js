@@ -113,13 +113,13 @@ const AllPosts = () => {
                                             <div className='flex flex-row items-center ml-4'> 
                                                 <h1 className='font-roboto text-gray-700'>{userAdminInfos.name} {userAdminInfos.lastname} </h1>
                                                 <h1 className='font-roboto text-gray-400 ml-3 '>@ {userAdminInfos.username}</h1>
-                                                <h1 className='font-roboto text-gray-400 font-light ml-3'>{response.createdAt} </h1>
+                                                <h1 className='font-roboto text-gray-400 font-light ml-3'>{response.post.createdAt} </h1>
                                             </div>
                                         ) : userInfos ? (
                                             <div className='flex flex-row items-center ml-4'>
                                                 <h1 className='font-roboto text-gray-700'>{userInfos.name} {userInfos.lastname} </h1>
                                                 <h1 className='font-roboto text-gray-400 ml-3 '>@ {userInfos.username}</h1>
-                                                <h1 className='font-roboto text-gray-400 font-light ml-3'>{response.createdAt} </h1>
+                                                <h1 className='font-roboto text-gray-400 font-light ml-3'>{response.post.createdAt} </h1>
                                             </div>
                                         ) : ''
                                     }

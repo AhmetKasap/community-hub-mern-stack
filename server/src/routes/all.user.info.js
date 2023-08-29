@@ -16,6 +16,8 @@ router.post('/post/comments', userAllControllers.postComments)
 
 router.post('/chatgpt', userAllControllers.chatGpt)
 
+router.post('/user/follow', authControllers.checkToken, userAllControllers.addFollow)
+router.post('/user/unfollow', authControllers.checkToken, userAllControllers.unFollow)
 
 
 module.exports = router
