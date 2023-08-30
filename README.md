@@ -4,6 +4,7 @@ MongoDB - Express.js - React.js - Node.js and OpenAI
 
 - Kullanıcılar uygulamaya kayıt olup, paylaşım yapabilir. Paylaşım yaparken yapay zekadan destek alabilir. Başka kullanıcıların paylaştıklarını okuyabilir,yorum yapabilir, beğenebilir ve takip edebilir.
 - Frontend tarafında Html, Tailwind Css, React ve Next.js kullandım.
+- Global State yönetimi için Redux Toolkit kullandım.
 - SSR ve CSR  yaklaşımlarına özen göstererek performans ve kullanıcı deneyimini artırdım.
 - Kullanıcıların içeriklerini daha zengin ve etkileyici hale getirebilmeleri için ChatGPT API kullandım.
 - Backend tarafında Express.js, veritabanı olarak ise MongoDBAtlas kullandım.
