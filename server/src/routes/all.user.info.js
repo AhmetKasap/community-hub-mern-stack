@@ -11,6 +11,8 @@ router.post('/user/username', authControllers.checkToken, userAllControllers.use
 
 
 router.post('/categories/post', userAllControllers.getCategoriesPost)
+router.post('/main', authControllers.checkToken, userAllControllers.mainPost)
+
 
 router.post('/post/details', userAllControllers.postDetails)
 

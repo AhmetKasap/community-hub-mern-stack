@@ -389,14 +389,59 @@ const myFollowed = async (req,res) => {
 
 
 
-
-
 const userTokenName = async (req,res) => {
     const username = req.user.username
     return new Response(username, 'tokene göre kullanıcı adı').success(res)
 }
 
 
+const mongoose = require('mongoose');
+
+const mainPost = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        
+        // Kullanıcının takip ettiği kullanıcıları bul
+        const followeds = await Followed.find({ userRef: userId });
+
+        // Kullanıcının takip ettiği kullanıcıların ObjectId'lerini içeren bir dizi oluşturun
+        const followedUserIds = followeds.map(followed => followed.follows);
+
+        // Bu kullanıcıların postlarını bul
+        const posts = await Post.find({ userRef: { $in: followedUserIds } })
+            .populate('userRef', 'name lastname avatar username');
+
+        if (posts.length > 0) {
+            // Postların _id değerlerini alarak bu postlara ait yorumları bul
+            const postIds = posts.map(post => post._id);
+            const comments = await Comment.find({ postRef: { $in: postIds } })
+                .populate('userRef', 'name lastname avatar username')
+                .populate('postRef', 'title content');
+
+            // Postları ve ilgili yorumları birleştirip dön
+            const postsWithComments = posts.map(post => {
+                const postComments = comments.filter(comment => comment.postRef.equals(post._id));
+                return {
+                    post: post,
+                    comments: postComments
+                };
+            });
+
+            return res.status(200).json(postsWithComments.reverse());
+        } else {
+            return res.status(404).json({ message: 'Takip edilen kullanıcıların postu bulunamadı' });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Sunucu hatası' });
+    }
+};
+
+
+
+
+
+
 module.exports = {
-    getUsersInfo, getUsersPost, addPost, getCategoriesPost, postDetails, addComment, postComments, chatGpt, addFollow, unFollow,myFollowed,followers,userTokenName
+    getUsersInfo, getUsersPost, addPost, getCategoriesPost, postDetails, addComment, postComments, chatGpt, addFollow, unFollow,myFollowed,followers,userTokenName,mainPost
 }
