@@ -21,7 +21,7 @@ const Page = ({ params }) => {
   }, [user,dispatch ])
 
   
-
+  console.log('userParams', userParams)
 
   return (
     <>

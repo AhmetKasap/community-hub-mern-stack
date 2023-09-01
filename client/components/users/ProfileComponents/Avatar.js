@@ -50,7 +50,6 @@ const Avatar = () => {
     dispatch(getAdminAvatar())
   },[dispatch])
 
-  console.log('userAvatar',userAvatar)
 
 
   
@@ -62,7 +61,6 @@ const Avatar = () => {
     
   },[userAvatar])
 
-  console.log('getReduxAvatar',getReduxAvatar)
 
   
 
@@ -95,8 +93,6 @@ const Avatar = () => {
     console.log('eeeeejuqweweqwe', userAdminInfo)
     if(userAdminInfo.success) {
       document.getElementById('togels').style.visibility = 'hidden'
-
-      console.log('userAdminInfo.data.avatar', userAdminInfo.data.avatar)
       
       //! update redux
       dispatch(setReduxAvatar(userAdminInfo.data.avatar))

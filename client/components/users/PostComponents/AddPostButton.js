@@ -17,7 +17,6 @@ const AddPostButton = () => {
 
 
 
-  console.log('adminutsdsa', adminButton)
 
 
   return (

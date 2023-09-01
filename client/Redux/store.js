@@ -6,6 +6,7 @@ import postSlice from './features/postSlice'
 import adminSlice from './features/adminSlice'
 import editAvatarSlice from './features/editAvatarSlice'
 import commentSlice from './features/commentSlice'
+import followSlice from './features/followSlice'
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     post : postSlice,
     admin : adminSlice,
     adminAvatar : editAvatarSlice,
-    postComment :commentSlice
+    postComment :commentSlice,
+    follow : followSlice
   },
 })

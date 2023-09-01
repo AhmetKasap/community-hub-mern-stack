@@ -6,6 +6,9 @@ const authControllers = require('../middlewares/user.auth')
 router.post('/users/info', userAllControllers.getUsersInfo)
 router.post('/users/post', userAllControllers.getUsersPost)
 router.post('/user/post', userAllControllers.addPost)
+router.post('/user/username', authControllers.checkToken, userAllControllers.userTokenName)
+
+
 
 router.post('/categories/post', userAllControllers.getCategoriesPost)
 
@@ -19,6 +22,11 @@ router.post('/chatgpt', userAllControllers.chatGpt)
 router.post('/user/follow', authControllers.checkToken, userAllControllers.addFollow)
 router.post('/user/unfollow', authControllers.checkToken, userAllControllers.unFollow)
 
+router.post('/user/followers', userAllControllers.followers)
+
+
 router.post('/user/myfollowed', userAllControllers.myFollowed)
+
+
 
 module.exports = router

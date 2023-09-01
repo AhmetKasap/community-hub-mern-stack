@@ -78,9 +78,7 @@ const AllPosts = () => {
 
 
 
-    if(post) {
-        console.log('post',post)
-    }
+    
    
     
 

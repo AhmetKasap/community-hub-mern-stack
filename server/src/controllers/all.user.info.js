@@ -257,8 +257,6 @@ const chatGpt = async (req, res) => {
 
 const addFollow = async (req, res) => {
 
-    
-
     const id = await req.user.id
     const followUsername = await req.user.username
     const username = await req.body.username
@@ -327,8 +325,6 @@ const unFollow = async (req, res) => {
     }
 
 
-
-
     //*Tokeni olan kullanıcı username olan bir kullanıcıyı takip ediyorsa, takipten çıkartabilecek
     if (id) {
         const follow = await Follow.findOne({ follower: tokenUserName })
@@ -357,8 +353,23 @@ const unFollow = async (req, res) => {
 
     }
 
+}
+
+
+const followers = async (req,res) => {
+    const username = await req.body.username
+    const user = await User.findOne({username : username})
+
+    const userFollow = await Follow.findOne({userRef : user._id})
+        .populate('userRef', 'name lastname avatar username')
+
+    if(userFollow) {
+        return new Response(userFollow, 'kullanıcı takipçileri').success(res)
+    }
 
 }
+
+
 
 
 const myFollowed = async (req,res) => {
@@ -374,17 +385,18 @@ const myFollowed = async (req,res) => {
     }
 
 
-
-
 }
 
 
 
 
 
-
+const userTokenName = async (req,res) => {
+    const username = req.user.username
+    return new Response(username, 'tokene göre kullanıcı adı').success(res)
+}
 
 
 module.exports = {
-    getUsersInfo, getUsersPost, addPost, getCategoriesPost, postDetails, addComment, postComments, chatGpt, addFollow, unFollow,myFollowed
+    getUsersInfo, getUsersPost, addPost, getCategoriesPost, postDetails, addComment, postComments, chatGpt, addFollow, unFollow,myFollowed,followers,userTokenName
 }
