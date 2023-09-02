@@ -1,6 +1,7 @@
 # social-ai-mern-stack
 MongoDB - Express.js - React.js - Node.js and OpenAI
 
+https://www.youtube.com/watch?v=Piv2rmJ-Bl0&ab_channel=AhmetKasap
 
 - Kullanıcılar uygulamaya kayıt olup, paylaşım yapabilir. Paylaşım yaparken yapay zekadan destek alabilir. Başka kullanıcıların paylaştıklarını okuyabilir,yorum yapabilir, beğenebilir ve takip edebilir.
 - Frontend tarafında Html, Tailwind Css, React ve Next.js kullandım.
