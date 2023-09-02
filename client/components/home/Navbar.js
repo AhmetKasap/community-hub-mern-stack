@@ -5,6 +5,7 @@ import Register from './Register'
 import LoginButton from './LoginButton'
 import Cookies from 'js-cookie'
 import ProfileButton from '../users/ProfileComponents/ProfileButton'
+import Image from 'next/image'
 
 const Navbar = () => {
 
@@ -26,7 +27,7 @@ const Navbar = () => {
     <>  
        <div className=' flex flex-row w-full h-20'>
          <div className='basis-1/4 flex flex-row justify-center items-center'>
-            <Link href="/"><h1 className='text-2xl text-black font-bold font-roboto hover:text-3xl'>LOGO</h1></Link>
+            <Link href="/"> <Image src="/logo.png" width={50} height={50} alt='logo'></Image>   </Link>
          </div>
          <div className='basis-1/2 flex flex-row justify-center items-center '>
             <input className='w-full border-2 border-gray-200 focus:border-4 outline-none  rounded-xl h-10 text-sm font-roboto' placeholder='... da ara'></input>

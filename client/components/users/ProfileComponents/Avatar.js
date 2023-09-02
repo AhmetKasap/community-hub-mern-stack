@@ -22,6 +22,7 @@ const Avatar = () => {
   }
 
 
+  const token = Cookies.get('jsonwebtoken')
 
   const username = useSelector((state) => state.params.value)
 
@@ -59,7 +60,7 @@ const Avatar = () => {
       setGetReduxAvatar(userAvatar.data)
     }
     
-  },[userAvatar])
+  },[userAvatar,token])
 
 
   
@@ -73,7 +74,6 @@ const Avatar = () => {
 
 
   const [avatar,setAvatar] = useState()
-  const token = Cookies.get('jsonwebtoken')
 
   const editAvatar = async  () => {
 
